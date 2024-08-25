@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CSS3 Modal</title>
+    <style>
+        /*导航栏样式*/
+        ul{
+            list-style-type: none;
+        }
+        ul.nav{
+            margin: 0;
+            padding: 0;
+            /*overflow: hidden;*/
+        }
+        ul.nav a{
+            display: block;
+            width: 150px;
+            text-decoration: none;
+            color: #42214a;
+        }
+        div.nav{
+            background-color: #d6a8f9;
+            width: 95%;
+            height: 50px;
+            position: sticky;
+            z-index: 10;
+            top: 0;
+            border: solid 2px rgba(100, 7, 140, 0.3);
+            border-radius: 10px;
+            margin:0px 10px;
+        }
+        ul.nav{
+            width: 100%;
+            height: 100%;
+        }
+        ul.nav li{
+            float: left;
+            width: 90px;
+            height: 100%;
+            text-align: center;
+            line-height: 50px;
+            margin: 0px 10px;
+        }
+
+
+
+        /*下拉菜单栏1*/
+        div.reason{
+            overflow: hidden;
+            width: 80px;
+            height: 0px;
+            background-color: #d8b9ef;
+            border-radius: 10px;
+            margin-left: 10px;
+            transition: height 0.3s, border 0.3s;
+        }
+        /*下拉动画1*/
+        li.reason:hover div.reason{
+            height: 90px;
+            border: solid 2px rgba(100, 7, 140, 0.3);
+            z-index: 10;
+        }
+        div.reason ul{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            margin-left: -10px;
+        }
+        div.reason ul li{
+            margin: 10px 3px 0px 3px;
+            line-height: 30px;
+            width: 40px;
+            height: 30px;
+        }
+        div.reason ul li a{
+            display: block;
+            color: #0f0e0e;
+        }
+
+
+        
+        /*下拉菜单栏2*/
+        div.feature{
+            overflow: hidden;
+            height: 0px;
+            width: 90px;
+            background-color: #d8b9ef;
+            border-radius: 10px;
+            margin-left: 10px;
+            transition: border 0.3s, height 0.3s;
+        }
+        /*下拉动画2*/
+        li.feature:hover div.feature{
+            height: 90px;
+            border: solid 2px rgba(100, 7, 140, 0.3);
+            z-index: 10;
+        }
+        div.feature ul{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            margin-left: -10px;
+        }
+        div.feature ul li{
+            margin: 10px 3px 0px 3px;
+            line-height: 30px;
+            width: 45px;
+            height: 30px;
+        }
+        div.feature ul li a{
+            display: block;
+            color: #0f0e0e;
+        }
+
+
+
+        /*字体设置*/
+        h1,h2{
+            text-align: center;
+            color: #2b173b;
+            display: block;
+            /*锚点定位，padding影响定位，margin不影响，通过margin调整目标位置*/
+            padding-top: 50px;
+            margin-top: -30px;
+        }
+        body{
+            background-color: rgba(204, 141, 230, 0.3);
+        }
+        div.introduce p,div.form p,div.ob-area p{
+            font-family: SimSun;
+            font-size: 18px;
+            line-height: 1.5;
+            text-align: justify;
+            /*首行缩进*/
+            text-indent: 2em;
+            margin: 10px;
+        }
+
+
+
+        /*图片样式*/
+        div.float{
+            border: solid 2px #45a3f6;
+            border-radius: 5px;
+            width: 270px;
+            background-color: rgba(178, 246, 251, 0.5);
+            text-align: center;
+            padding: 0;
+            margin-left: 10px;
+            float: right;
+            transition: all 0.3s;
+        }
+        div.float:hover{
+            box-shadow: 0px 0px 10px #45a3f6;
+            opacity: 0.9;
+        }
+
+
+
+
+        /*图片modal*/
+        #myImg{
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            display: block;
+            margin: auto;
+        }
+        #myImg:hover{
+            opacity: 0.8;
+            animation: outline1 0.3s;
+            animation-fill-mode: forwards;
+        }
+        @keyframes outline1 {
+            from {outline: none;}
+            to {outline: 3px dashed #b886de;outline-offset: 5px;}
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+        }
+       .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 500px;
+        }
+        #caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 150px;
+        }
+       .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+       .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-content, #caption {
+
+            -webkit-animation-name: zoom;
+            -webkit-animation-duration: 0.6s;
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+
+        @-webkit-keyframes zoom {
+
+            from {-webkit-transform:scale(0)}
+            to {-webkit-transform:scale(1)}
+        }
+
+        @keyframes zoom {
+
+            from {transform:scale(0)}
+            to {transform:scale(1)}
+        }
+
+
+        @media only screen and (max-width: 700px){
+           .modal-content {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!--首页-->
+    <h1 id="top">极光的介绍</h1>
+    <img id="myImg" src="Aurora.png" alt="极光（Aurora），是一种绚丽多彩的等离子体现象，其发生是由于太阳带电粒子流（太阳风）进入地球磁场，在地球南北两极附近地区的高空，夜间出现的灿烂美丽的光辉。" width="300px" height="200px">
+    <!-- Modal -->
+     <div id="myModal" class="modal">
+        <span class="close">×</span>
+        <img class="modal-content" id="img01">
+        <div id="caption"></div>
+     </div>
+     <div class="introduce">
+        <p>极光（Aurora），是一种绚丽多彩的等离子体现象，其发生是由于太阳带电粒子流（太阳风）进入地球磁场，在地球南北两极附近地区的高空，夜间出现的灿烂美丽的光辉。在南极被称为南极光，在北极被称为北极光。地球的极光是来自地球磁层或太阳的高能带电粒子流（太阳风）使高层大气分子或原子激发（或电离）而产生。</p>
+        <p>极光常常出现于纬度靠近地磁极地区上空，一般呈带状、弧状、幕状、放射状，这些形状有时稳定有时作连续性变化。极光产生的条件有三个：大气、磁场、高能带电粒子。</p>
+        <p>现代物理学对极光产生原理有详细描述，地球上的极光是由于来自磁层和太阳风的带电高能粒子被地磁场导引带进地球大气层，并与高层大气（热层）中的原子碰撞造成的发光现象。极光不只在地球上出现，太阳系内的其它一些具有磁场的行星上也有极光。</p>
+     </div>
+     <!--导航栏-->
+     <div class="nav">
+        <ul class="nav">
+            <li><a href="#form">极光的形态</a></li>
+            <li><a href="#ob-area">观测区域</a></li>
+            <li><a href="#classify">基本分类</a></li>
+            <li class="reason"><a href="#reason">产生原因</a>
+                <div class="reason">
+                    <ul class="reason">
+                        <li><a class="view" href="#view">现代观点</a></li>
+                        <li><a href="#theory">产生原理</a></li>
+                    </ul>    
+                </div>
+            </li>
+            <li class="feature"><a href="#feature">自然特征</a>
+                <div class="feature">
+                    <ul id="feature">
+                        <li><a href="#beauty">极光之美</a></li>
+                        <li><a href="#voice">极光的声音</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="#top">返回顶部</a></li>
+        </ul>
+    </div>
+
+    <!-- 极光的形态 -->
+    <h2 id="form">极光的形态</h2>
+    <div class="float">
+        <img src="Aurora-form.png" alt="极光的形态" width="250px" height="auto"><br>
+        <div class="caption">极光的形态</div>
+    </div>
+    <div class="form">
+        <p>极光，是由80～500公里高空的电爆引起的发光现象。 地球的“磁南极”和“磁北极”构成的强大磁场是呈弧形磁力线作螺旋运动移向两极，从而使极地上空大气层若干气体发出光芒。</p>
+        <p>根据关于极光分布情况的研究，极光区的形状不是以地磁极为中心的圆环状，而是卵形。极光的光谱线范围约为3100～6700埃，其中最重要的谱线是5577埃的氧原子绿线，称为极光绿线。</p>
+        <p>大多数极光出现于地球上空90-130千米处。1959年，一次北极光所测得的高度是160千米，宽度超过4800千米。但有些极光要高得多，高度可达560-1000千米以上。</p>
+    </div>
+
+
+    <!-- 观测区域 -->
+    <h2 id="ob-area">观测区域</h2>
+    <div class="ob-area">
+        <p>由于地磁场的作用，这些高能粒子转向极区，所以极光常见于高磁纬地区。在大约离磁极25°～30°的范围内常出现极光，这个区域称为极光区。地磁纬度在60°-90°的范围称为极光区，地磁纬度45°-60°之间的区域称为弱极光区，地磁纬度低于45°的区域称为微极光区。</p>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     <script>
+        var modal = document.getElementById("myModal");
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        img.onclick = function(){
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            captionText.innerHTML = this.alt;
+        }
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function() { 
+            modal.style.display = "none";
+        }
+     </script>
+</body>
+</html>
